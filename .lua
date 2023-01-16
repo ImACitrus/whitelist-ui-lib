@@ -13,13 +13,7 @@ module.SETTINGS = {
 
 ignoreClose = module.SETTINGS.closeAfterX == 0
 
-function module:Window(config: {
-	Properties: {
-		body: Color3,
-		key: { textcolor: Color3, backgroundcolor: Color3, outlinecolor: Color3 },
-		button: { textcolor: Color3, backgroundcolor: Color3 }
-	}?
-	})
+function module:Window(config)
 
 	local Players = game:GetService("Players")
 
@@ -100,7 +94,7 @@ function module:Window(config: {
 
 end
 
-function module:onConnect(keys: {}, callback: (user: Player, HasSubscription: boolean)->())
+function module:onConnect(keys, callback)
 	
 	local gui = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("wl")
 	local body = gui:WaitForChild("body")
@@ -110,8 +104,8 @@ function module:onConnect(keys: {}, callback: (user: Player, HasSubscription: bo
 	local user = game:GetService("Players").LocalPlayer
 	trigger.MouseButton1Click:Connect(function()
 		self:TweenState(trigger, "pressed")
-		if not ignoreClose then module.SETTINGS.attempts += 1 if module.SETTINGS.attempts >= module.SETTINGS.closeAfterX then return gui:Destroy(); end  end
-		for _, v: {Id: number, Key: string, Subscription: boolean} in next, keys do
+		if not ignoreClose then module.SETTINGS.attempts = module.SETTINGS.attempts + 1 if module.SETTINGS.attempts >= module.SETTINGS.closeAfterX then return gui:Destroy(); end  end
+		for _, v in next, keys do
 			if v.Id == user.UserId then
 				print("Id is valid!")
 				if string.lower(v.Key) == string.lower(textbox.Text) then
@@ -139,5 +133,3 @@ function module:onConnect(keys: {}, callback: (user: Player, HasSubscription: bo
 		keys = keys
 	}
 end
-
-return module
