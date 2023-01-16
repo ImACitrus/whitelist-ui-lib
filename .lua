@@ -139,3 +139,5 @@ function module:onConnect(keys: {}, callback: (user: Player, HasSubscription: bo
 		keys = keys
 	}
 end
+
+return module
